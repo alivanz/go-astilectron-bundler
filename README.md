@@ -7,7 +7,7 @@ Check out the [demo](https://github.com/asticode/go-astilectron-demo) to see a w
 Run the following command:
 
     $ go get -u github.com/asticode/go-astilectron-bundler/...
-    
+
 # Configuration
 
 **astilectron-bundler** uses a configuration file to know what it's supposed to do. Here's an example:
@@ -47,11 +47,11 @@ We **strongly** encourage to leave the input path option empty and execute the *
 If **astilectron-bundler** has been installed properly (and the $GOPATH is in your $PATH), run the following command:
 
     $ astilectron-bundler -v -c <path to your configuration file>
-    
+
 or if your working directory is your project directory and your bundler configuration has the proper name (`bundler.json`)
 
     $ astilectron-bundler -v
-    
+
 # Output
 
 For each environment you specify in your configuration file, **astilectron-bundler** will create a folder `<output path you specified in the configuration file>/<os>-<arch>` that will contain the proper files.
@@ -64,14 +64,20 @@ For each environment you specify in your configuration file, **astilectron-bundl
 - `BuiltAt`: filled with the date the build has been done at
 
 # Subcommands
-## Only bind data: bd
+## Only bind data: bindata
 
 Use this subcommand if you want to skip most of the bundling process and only bind data/generate the `bind.go` file (useful when you want to test your app running `go run *.go`):
 
-    $ astilectron-bundler bd -v -c <path to your configuration file>
+    $ astilectron-bundler bindata -v -c <path to your configuration file>
 
-## Clear the cache: cc
+## Only Bind data (debug): bindebug
+
+Used when dont want actually bind data, just behave like bind data. You can modify without re-bind.
+
+    $ astilectron-bundler bindebug -v -c <path to your configuration file>
+
+## Clear the cache: clear
 
 The **bundler** stores downloaded files in a cache to avoid downloading them over and over again. That cache may be corrupted. In that case, use this subcommand to clear the cache:
 
-    $ astilectron-bundler cc -v
+    $ astilectron-bundler clean -v

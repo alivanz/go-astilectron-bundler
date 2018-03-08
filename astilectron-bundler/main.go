@@ -7,7 +7,8 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/asticode/go-astilectron-bundler"
+	//"github.com/alivanz/go-astilectron-bundler"
+	"../../go-astilectron-bundler"
 	"github.com/asticode/go-astilog"
 	"github.com/asticode/go-astitools/flag"
 	"github.com/pkg/errors"
@@ -85,17 +86,24 @@ func main() {
 
 	// Switch on subcommand
 	switch s {
-	case "bd":
+	case "bindata":
 		// Bind Data
 		for _, env := range c.Environments {
-			if err = b.BindData(env.OS, env.Arch); err != nil {
+			if err = b.BindData(env.OS, env.Arch, false); err != nil {
 				astilog.Fatal(errors.Wrapf(err, "binding data failed for %s/%s", env.OS, env.Arch))
 			}
 		}
-	case "cc":
+	case "clean":
 		// Clear cache
 		if err = b.ClearCache(); err != nil {
 			astilog.Fatal(errors.Wrap(err, "clearing cache failed"))
+		}
+	case "bindebug":
+		// Bind Data
+		for _, env := range c.Environments {
+			if err = b.BindData(env.OS, env.Arch, true); err != nil {
+				astilog.Fatal(errors.Wrapf(err, "binding data failed for %s/%s", env.OS, env.Arch))
+			}
 		}
 	default:
 		// Bundle

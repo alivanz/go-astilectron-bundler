@@ -338,7 +338,7 @@ func (b *Bundler) provisionVendor(oS, arch string) (err error) {
 }
 
 // BindData binds the data
-func (b *Bundler) BindData(os, arch string) (err error) {
+func (b *Bundler) BindData(os, arch string, debug bool) (err error) {
 	// Provision the vendor
 	if err = b.provisionVendor(os, arch); err != nil {
 		err = errors.Wrap(err, "provisioning the vendor failed")
@@ -354,6 +354,7 @@ func (b *Bundler) BindData(os, arch string) (err error) {
 	c.Tags = fmt.Sprintf("%s,%s", os, arch)
 	c.Output = filepath.Join(b.pathInput, fmt.Sprintf("bind_%s_%s.go", os, arch))
 	c.Prefix = b.pathInput
+	c.Debug = debug
 
 	// Bind data
 	astilog.Debugf("Generating %s", c.Output)
@@ -409,12 +410,13 @@ func (b *Bundler) bundle(e ConfigurationEnvironment) (err error) {
 		return
 	}
 
+	// MANUALLY, to prevent bind data overtime
 	// Bind data
-	astilog.Debug("Binding data")
-	if err = b.BindData(e.OS, e.Arch); err != nil {
-		err = errors.Wrap(err, "binding data failed")
-		return
-	}
+	//astilog.Debug("Binding data")
+	//if err = b.BindData(e.OS, e.Arch, false); err != nil {
+	//	err = errors.Wrap(err, "binding data failed")
+	//	return
+	//}
 
 	// Add windows .syso
 	if e.OS == "windows" {
